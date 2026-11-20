@@ -11,3 +11,4 @@ jobs:
     with:
       upload-artifact: true
       upload-tag: "nightly"
+# UP-DESK: built from safegaurd80-prog/updesk (separate repo, not a fork)
