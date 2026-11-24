@@ -1,5 +1,6 @@
-# res/updesk_ui_patch.py — UP-DESK 화면 모양 패치(updesk_patch.py 끝에서 실행). 값(주소·키) 없음.
-# 2026-11-20 강규진 주임 결정: 지금 고객용 화면의 칸·글은 그대로 + 제목줄(아이콘·UHDPRO·UP-DESK) + 시안 모양(라이트 기본 / 다크 선택)
+# @LAYER: 도구 | @PORT: 없음(빌드 러너) | @ROLE: UP-Desk 고객용 화면 패치 — 색·제목줄·첫 화면·새 비밀번호 단추 색·고객센터 번호 칸 | @KEY: updesk_patch.py 끝에서 runpy 로 실행
+# res/updesk_ui_patch.py — UP-Desk 화면 모양 패치(updesk_patch.py 끝에서 실행). 값(주소·키) 없음.
+# 2026-11-20 강규진 주임 결정: 지금 고객용 화면의 칸·글은 그대로 + 제목줄(아이콘·UHDPRO·UP-Desk) + 시안 모양(라이트 기본 / 다크 선택)
 # 원본 글이 바뀌면 assert 로 멈춘다(조용히 잘못 만들지 않음).
 import pathlib
 
@@ -25,7 +26,7 @@ edit("flutter/lib/common.dart", [
      "      primary: accent,\n      secondary: accent,\n      background: Color(0xFF141517),"),
 ])
 
-# ② 제목줄 — 검정 바탕 + 아이콘 · UHDPRO(빨강) | UP-DESK(흰색) · 창 단추는 밝은 회색
+# ② 제목줄 — 검정 바탕 + 아이콘 · UHDPRO(빨강) | UP-Desk(흰색) · 창 단추는 밝은 회색
 edit("flutter/lib/desktop/widgets/tabbar_widget.dart", [
     ("child: _buildBar(),",
      f"child: ColoredBox(color: {DARK} ? const Color(0xFF1D1E21) : const Color(0xFF111111), child: _buildBar()),"),
@@ -46,7 +47,7 @@ edit("flutter/lib/desktop/widgets/tabbar_widget.dart", [
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0x88FFFFFF)))
                               .marginOnly(left: 6, right: 6),
-                          const Text("UP-DESK",
+                          const Text("UP-Desk",
                               style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w700,
@@ -219,4 +220,56 @@ edit("flutter/lib/desktop/pages/desktop_home_page.dart", [
                 size: 20,
               ),'''),
 ])
-print("UP-DESK ui patch OK")
+# ④ 2026-11-24 강규진 주임: 새 비밀번호 단추를 라이트·다크 모두 잘 보이게 · '설치하기' 칸 자리에 고객센터 번호 칸(설치 기능은 updesk_patch.py 에서 끔)
+SUPPORT_CARD = """  // UP-Desk: 설치 안내 칸 자리 - 고객센터 번호(설치 기능은 꺼 둠)
+  Widget buildUpdeskSupportCard() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = Theme.of(context).textTheme.titleLarge?.color;
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 20, 12, 20),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+          color: isDark ? const Color(0xFF232428) : Colors.white,
+          border: isDark ? null : Border.all(color: const Color(0xFFD6D8DC)),
+          borderRadius: BorderRadius.circular(9)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('UHDPRO 고객센터',
+              style: TextStyle(
+                  color: textColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15)),
+          const Text('1666-4331',
+                  style: TextStyle(
+                      color: MyTheme.accent,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 24))
+              .marginOnly(top: 2, bottom: 4),
+          Text('통화 중인 상담 기사에게만\\nID와 비밀번호를 알려 주세요.',
+              style: TextStyle(
+                  height: 1.5,
+                  color: textColor?.withOpacity(0.8),
+                  fontSize: 13)),
+        ],
+      ),
+    );
+  }
+
+"""
+edit("flutter/lib/desktop/pages/desktop_home_page.dart", [
+    ("""                                  color: refreshHover.value
+                                      ? textColor
+                                      : Color(0xFFDDDDDD),""",
+     f"""                                  color: refreshHover.value
+                                      ? textColor
+                                      : ({DARK}
+                                          ? const Color(0xFFBBBBBB)
+                                          : const Color(0xFF555555)),"""),
+    ("    if (isWindows && !bind.isDisableInstallation()) {\n",
+     "    if (isWindows && !bind.mainIsInstalled()) {\n      return buildUpdeskSupportCard();\n    }\n\n"
+     "    if (isWindows && !bind.isDisableInstallation()) {\n"),
+    ("  Widget buildInstallCard(String title, String content, String btnText,\n",
+     SUPPORT_CARD + "  Widget buildInstallCard(String title, String content, String btnText,\n"),
+])
+print("UP-Desk ui patch OK")
