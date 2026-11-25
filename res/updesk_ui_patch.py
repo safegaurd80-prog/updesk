@@ -63,6 +63,10 @@ edit("flutter/lib/desktop/widgets/tabbar_widget.dart", [
     ("      unSelectedTextColor: Color.fromARGB(255, 112, 112, 112),", "      unSelectedTextColor: Color.fromARGB(255, 170, 170, 170),"),
     ("      selectedIconColor: Color.fromARGB(255, 26, 26, 26),", "      selectedIconColor: Color.fromARGB(255, 221, 221, 221),"),
     ("      selectedTabBackgroundColor: Colors.white54);", "      selectedTabBackgroundColor: Colors.white24);"),
+    # 2026-11-25: 받기 전용 홈 화면(작은 창)에서는 탭을 안 그림 — 설정에 갔다 오면 탭이 2개라 잘린 '홈' 단추가 눌렸음 · 안 고른 탭 아이콘 = 라이트 짙은 회색 / 다크 파랑
+    ("children: isHideSingleItem()", "children: (isHideSingleItem() ||\n                (bind.isIncomingOnly() && isInHomePage()))"),
+    ("      unSelectedTabIconColor: Color.fromARGB(255, 162, 203, 241),", "      unSelectedTabIconColor: Color.fromARGB(255, 119, 119, 119),"),
+    ("      unSelectedTabIconColor: Color.fromARGB(255, 30, 65, 98),", "      unSelectedTabIconColor: Color.fromARGB(255, 63, 127, 208),"),
 ])
 
 # ③ 첫 화면 — 굵은 제목 · ID 테두리 상자(다크는 빨간 막대 상자) · 비밀번호 입력칸 모양 · 설치 안내 상자 + 빨간 단추
