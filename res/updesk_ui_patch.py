@@ -221,13 +221,15 @@ edit("flutter/lib/desktop/pages/desktop_home_page.dart", [
               ),'''),
 ])
 # ④ 2026-11-24 강규진 주임: 새 비밀번호 단추를 라이트·다크 모두 잘 보이게 · '설치하기' 칸 자리에 고객센터 번호 칸(설치 기능은 updesk_patch.py 에서 끔)
+# 2026-11-25: 칸을 ID 상자와 같은 폭으로(width 무한 — 안 주면 글 길이만큼만 넓어져 가운데로 몰림 · #3 실기) + 상자·글자 키움
 SUPPORT_CARD = """  // UP-Desk: 설치 안내 칸 자리 - 고객센터 번호(설치 기능은 꺼 둠)
   Widget buildUpdeskSupportCard() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final textColor = Theme.of(context).textTheme.titleLarge?.color;
     return Container(
+      width: double.infinity,
       margin: const EdgeInsets.fromLTRB(16, 20, 12, 20),
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.fromLTRB(18, 18, 18, 20),
       decoration: BoxDecoration(
           color: isDark ? const Color(0xFF232428) : Colors.white,
           border: isDark ? null : Border.all(color: const Color(0xFFD6D8DC)),
@@ -239,18 +241,18 @@ SUPPORT_CARD = """  // UP-Desk: 설치 안내 칸 자리 - 고객센터 번호(�
               style: TextStyle(
                   color: textColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: 15)),
+                  fontSize: 17)),
           const Text('1666-4331',
                   style: TextStyle(
                       color: MyTheme.accent,
                       fontWeight: FontWeight.w900,
-                      fontSize: 24))
-              .marginOnly(top: 2, bottom: 4),
+                      fontSize: 30))
+              .marginOnly(top: 4, bottom: 6),
           Text('통화 중인 상담 기사에게만\\nID와 비밀번호를 알려 주세요.',
               style: TextStyle(
                   height: 1.5,
                   color: textColor?.withOpacity(0.8),
-                  fontSize: 13)),
+                  fontSize: 14)),
         ],
       ),
     );
