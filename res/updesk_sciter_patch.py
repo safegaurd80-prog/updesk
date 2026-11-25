@@ -42,8 +42,10 @@ edit("src/ui/index.html", [
 ])
 
 # ⑤ 첫 화면 — 창 폭·높이 · ID/비밀번호 상자 · 고객센터 칸 · '⋮' 메뉴는 테마·언어·정보만
-SUPPORT = ('{incoming_only ? <div .updesk-support><div .t>UHDPRO 고객센터</div><div .tel>1666-4331</div>'
-           '<div .d>통화 중인 상담 기사에게만<br/>ID와 비밀번호를 알려 주세요.</div></div> : ""}')
+def esc(t):  # 한글은 \uXXXX 로 넣는다(옛날 화면 도구가 화면 원본의 한글 바이트를 윈도우 기본 글자표로 읽어 깨짐 · 11/25 실기)
+    return '{"' + "".join(c if ord(c) < 128 else "\\u%04X" % ord(c) for c in t) + '"}'
+SUPPORT = ('{incoming_only ? <div .updesk-support><div .t>' + esc("UHDPRO 고객센터") + '</div><div .tel>1666-4331</div>'
+           '<div .d>' + esc("통화 중인 상담 기사에게만") + '</div><div .d>' + esc("ID와 비밀번호를 알려 주세요.") + '</div></div> : ""}')
 edit("src/ui/index.tis", [
     ("const incoming_only_width = 180;", "const incoming_only_width = 300;"),
     ('const hide_stop_service = handler.get_builtin_option("hide-stop-service") == "Y";',
@@ -62,7 +64,7 @@ edit("src/ui/index.tis", [
      "        <div .your-desktop .updesk-pw>\n            <div>{translate('One-time Password')}</div>"),
 ])
 pathlib.Path("src/ui/index.tis").write_text(pathlib.Path("src/ui/index.tis").read_text(encoding="utf-8") + '''
-// UP-Desk: 검정 제목줄 — 최소화·닫기 단추 + 우리 아이콘
+// UP-Desk: black title bar - minimize/close buttons + our icon
 if (!is_osx) {
     $(div.window-buttons).content(<div>
         <button.window tabindex="-1" role="window-minimize" #minimize><div /></button>
@@ -76,15 +78,16 @@ if (!is_osx) {
 
 CLOSE_WHITE = ("iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMBAMAAACkW0HUAAAAD1BMVEUAAAD///////////////+PQt5oAAAABXRSTlMAO+hBqp3RzLsAAAAuSURBVAjXY3BkAAIRBiEDBgZGZRACMkEYxAJyQRwgV5EBSsEEoUqgGqDaoYYBALKmBEEnAGy8AAAAAElFTkSuQmCC")
 CSS = '''
-/* UP-Desk 32비트 — 64비트와 같은 모양 */
+/* UP-Desk 32-bit: same look as 64-bit */
+html { font-family: "Malgun Gothic", "Segoe UI", system; }
 header { background: #111111; height: 32px; border-bottom: none; }
 html.darktheme header { background: #1D1E21; }
 header div.window-icon { size: 32px; }
 header div.window-icon icon { size: 18px; }
-header caption { flow: horizontal; padding-left: 2px; }
-header caption span.brand { color: #CC0000; font-weight: 900; font-size: 15px; margin: * 0; }
-header caption span.sep { color: #888888; font-size: 13px; margin: * 6px; }
-header caption span.app { color: white; font-weight: bold; font-size: 13px; margin: * 0; }
+header caption { padding-left: 2px; line-height: 32px; white-space: nowrap; }
+header caption span.brand { color: #CC0000; font-weight: 900; font-size: 15px; }
+header caption span.sep { color: #888888; font-size: 13px; padding: 0 6px; }
+header caption span.app { color: white; font-weight: bold; font-size: 13px; }
 header button.window { height: 32px; }
 header button.window:hover { background: #333333; }
 header button.window#minimize { right: 42px; }
@@ -107,6 +110,7 @@ div.updesk-support .t { font-weight: bold; font-size: 15px; }
 div.updesk-support .tel { color: #CC0000; font-weight: 900; font-size: 26px; margin: 2px 0 4px; }
 div.updesk-support .d { font-size: 13px; line-height: 1.5em; color: color(light-text); }
 menu#config-options > div.separator { display: none; }
+menu#config-options > li#allow-darktheme.line-through { text-decoration-line: none; color: color(text); }
 '''.replace("__CLOSE__", CLOSE_WHITE)
 p = pathlib.Path("src/ui/index.css"); p.write_text(p.read_text(encoding="utf-8") + CSS, encoding="utf-8")
 print("UP-Desk sciter patch OK")
