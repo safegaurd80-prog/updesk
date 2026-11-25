@@ -16,6 +16,8 @@ DARK = "Theme.of(context).brightness == Brightness.dark"
 
 # ① 색 — 파랑 → 브랜드 빨강(#CC0000) · 바탕 라이트=흰색 / 다크=#141517
 edit("flutter/lib/common.dart", [
+    # 2026-11-25 가운데 맞춤: 받기 전용 창이 안쪽 폭 280 을 다 보여 주게(창 테두리 몫 11 → 16 · 실측: 보이는 폭 275~276 → 오른쪽 4~5 잘려 왼쪽 16 / 오른쪽 7)
+    ("final magicWidth = isWindows ? 11.0 : 2.0;", "final magicWidth = isWindows ? 16.0 : 2.0;"),
     ("static const Color accent = Color(0xFF0071FF);", "static const Color accent = Color(0xFFCC0000);"),
     ("static const Color accent50 = Color(0x770071FF);", "static const Color accent50 = Color(0x77CC0000);"),
     ("static const Color accent80 = Color(0xAA0071FF);", "static const Color accent80 = Color(0xAACC0000);"),
@@ -65,6 +67,8 @@ edit("flutter/lib/desktop/widgets/tabbar_widget.dart", [
 
 # ③ 첫 화면 — 굵은 제목 · ID 테두리 상자(다크는 빨간 막대 상자) · 비밀번호 입력칸 모양 · 설치 안내 상자 + 빨간 단추
 edit("flutter/lib/desktop/pages/desktop_home_page.dart", [
+    # 좌우 여백 16 · 16(가운데 맞춤) — '내 데스크탑' 글도 상자 왼쪽 줄에(글 폭은 그대로 244)
+    ("const EdgeInsets.only(left: 20.0, right: 16, top: 16.0, bottom: 5),", "const EdgeInsets.only(left: 16.0, right: 20, top: 16.0, bottom: 5),"),
     ("style: Theme.of(context).textTheme.titleLarge,",
      "style: Theme.of(context)\n                        .textTheme\n                        .titleLarge\n                        ?.copyWith(fontWeight: FontWeight.w800),"),
     ('''    return Container(
@@ -72,7 +76,7 @@ edit("flutter/lib/desktop/pages/desktop_home_page.dart", [
       height: 57,''',
      f'''    final isDark = {DARK};
     return Container(
-      margin: const EdgeInsets.only(left: 16, right: 12, top: 10),
+      margin: const EdgeInsets.only(left: 16, right: 16, top: 10),
       padding: const EdgeInsets.fromLTRB(10, 6, 2, 6),
       decoration: BoxDecoration(
         color: isDark ? const Color(0xFF232428) : Colors.white,
@@ -97,7 +101,7 @@ edit("flutter/lib/desktop/pages/desktop_home_page.dart", [
     ("                          border: InputBorder.none,\n                          contentPadding: EdgeInsets.only(top: 10, bottom: 10),",
      "                          filled: false,\n                          border: InputBorder.none,\n                          contentPadding: EdgeInsets.only(top: 10, bottom: 10),"),
     ("margin: EdgeInsets.only(left: 20.0, right: 16, top: 13, bottom: 13),",
-     f"""margin: EdgeInsets.only(left: 16.0, right: 12, top: 13, bottom: 13),
+     f"""margin: EdgeInsets.only(left: 16.0, right: 16, top: 13, bottom: 13),
       padding: EdgeInsets.fromLTRB({DARK} ? 14 : 10, 6, 8, 10),
       decoration: BoxDecoration(
         color: {DARK} ? const Color(0xFF232428) : Colors.white,
@@ -145,7 +149,7 @@ edit("flutter/lib/desktop/pages/desktop_home_page.dart", [
     ('''          margin: EdgeInsets.fromLTRB(
               0, marginTop, 0, bind.isIncomingOnly() ? marginTop : 0),''',
      '''          margin: EdgeInsets.fromLTRB(
-              16, marginTop, 12, bind.isIncomingOnly() ? marginTop : 0),'''),
+              16, marginTop, 16, bind.isIncomingOnly() ? marginTop : 0),'''),
     ('''              decoration: BoxDecoration(
                   gradient: LinearGradient(
                 begin: Alignment.centerLeft,
@@ -237,7 +241,7 @@ SUPPORT_CARD = """  // UP-Desk: 설치 안내 칸 자리 - 고객센터 번호(�
     final textColor = Theme.of(context).textTheme.titleLarge?.color;
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.fromLTRB(16, 0, 12, 20),
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
       padding: EdgeInsets.fromLTRB(isDark ? 21 : 17, 14, 17, 16),
       decoration: BoxDecoration(
           color: isDark ? const Color(0xFF232428) : Colors.white,

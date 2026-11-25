@@ -72,6 +72,10 @@ edit("libs/portable/Cargo.toml", [
     ('OriginalFilename = "rustdesk.exe"',          'OriginalFilename = "UP-Desk-64bit.exe"'),
     ('FileDescription = "RustDesk Remote Desktop"', 'FileDescription = "UP-Desk Remote Support"'),
 ])
+# ④-1 풀리는 폴더 — %LOCALAPPDATA%\\rustdesk → updesk(2026-11-25 강규진 주임). 공식 RustDesk·옛 판과 같은 자리면 윈도우가 그 자리의 옛 이름·아이콘을 기억해 작업표시줄에 보여 준다
+edit("libs/portable/src/main.rs", [
+    ("dir.join(app_dir_name(&reader.exe))", 'dir.join(app_dir_name(&reader.exe).replace("rustdesk", "updesk"))'),
+])
 
 # ⑤ 아이콘 — res/updesk/ 의 우리 아이콘으로 덮는다(원본 파일은 저장소에서 안 바꿈 → 공식 동기화 때 충돌 없음)
 for src, dsts in {
