@@ -60,6 +60,12 @@ edit("src/ui/index.tis", [
      "<li #about>{handler.get_app_name()} {\" \"}{translate('About')}</li>"),
     ("{!outgoing_only && <div .your-desktop>", "{!outgoing_only && <div .your-desktop .updesk-id>"),
     ("{!outgoing_only && <PasswordArea />}", "{!outgoing_only && <PasswordArea />}\n                        " + SUPPORT),
+    # 정보 창: 제목 'UP-Desk 정보' · 버전/지문 한국어 · 번역자 문구(Slogan_tip) 뺌(저작권·라이선스 줄은 유지) — 11/26 강규진 주임
+    ('msgbox("custom-nocancel-nook-hasclose", translate("About") + " " + name,',
+     'msgbox("custom-nocancel-nook-hasclose", name + " " + translate("About"),'),
+    ('<div>Version: " + handler.get_version()', '<div>" + translate("Version") + ": " + handler.get_version()'),
+    ('<div>Fingerprint: " + handler.get_fingerprint()', '<div>" + translate("Fingerprint") + ": " + handler.get_fingerprint()'),
+    ("            <p style='font-weight: bold'>\" + translate(\"Slogan_tip\") + \"</p>\\\n", ""),
     ("        <div .your-desktop>\n            <div>{translate('One-time Password')}</div>",
      "        <div .your-desktop .updesk-pw>\n            <div>{translate('One-time Password')}</div>"),
 ])
@@ -96,6 +102,7 @@ header button.window#close div { background-image: url('data:image/png;base64,__
 .left-pane > div:nth-child(1) { padding: 16px; padding-bottom: 60px; border-spacing: 13px; }
 .left-pane .title { font-weight: bold; font-size: 1.6em; }
 .left-pane div.lighter-text { word-wrap: normal; margin-bottom: 4px; }
+div#msgbox #cancel { margin-top: 12px; }
 div.updesk-id, div.updesk-pw, div.updesk-support { background: white; border: #D6D8DC 1px solid; border-radius: 9px; padding: 8px 10px; }
 html.darktheme div.updesk-id, html.darktheme div.updesk-pw, html.darktheme div.updesk-support { background: #232428; border: none; padding-left: 14px; }
 html.darktheme div.updesk-id { border-left: #CC0000 solid 4px; padding-left: 12px; }
