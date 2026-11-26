@@ -37,7 +37,7 @@ edit("src/ui/common.css", [
 edit("src/ui/index.html", [
     ("<html>", '<html window-resizable window-frame="extended">'),
     ("</head>\n", '</head>\n<header>\n    <div.window-icon role="window-icon"><icon /></div>\n'
-                  '    <caption role="window-caption"><span.brand>UHDPRO</span><span.sep>|</span><span.app>UP-Desk</span></caption>\n'
+                  '    <caption role="window-caption"><span.brand>UHDPRO</span>&nbsp;&nbsp;<span.sep>|</span>&nbsp;&nbsp;<span.app>UP-Desk</span></caption>\n'
                   '    <div.window-buttons />\n</header>\n'),
 ])
 
@@ -84,7 +84,7 @@ header { background: #111111; height: 32px; border-bottom: none; }
 html.darktheme header { background: #1D1E21; }
 header div.window-icon { size: 32px; }
 header div.window-icon icon { size: 18px; }
-header caption { padding-left: 2px; line-height: 32px; white-space: nowrap; }
+header caption { padding-left: 4px; line-height: 32px; white-space: nowrap; }
 header caption span.brand { color: #CC0000; font-weight: 900; font-size: 15px; }
 header caption span.sep { color: #888888; font-size: 13px; padding: 0 6px; }
 header caption span.app { color: white; font-weight: bold; font-size: 13px; }
@@ -95,6 +95,7 @@ header button.window#minimize div { border-bottom: #dddddd solid 1px; }
 header button.window#close div { background-image: url('data:image/png;base64,__CLOSE__'); }
 .left-pane > div:nth-child(1) { padding: 16px; padding-bottom: 60px; border-spacing: 13px; }
 .left-pane .title { font-weight: bold; font-size: 1.6em; }
+.left-pane div.lighter-text { word-wrap: normal; margin-bottom: 4px; }
 div.updesk-id, div.updesk-pw, div.updesk-support { background: white; border: #D6D8DC 1px solid; border-radius: 9px; padding: 8px 10px; }
 html.darktheme div.updesk-id, html.darktheme div.updesk-pw, html.darktheme div.updesk-support { background: #232428; border: none; padding-left: 14px; }
 html.darktheme div.updesk-id { border-left: #CC0000 solid 4px; padding-left: 12px; }
