@@ -66,6 +66,13 @@ edit("src/ui/index.tis", [
     ('<div>Version: " + handler.get_version()', '<div>" + translate("Version") + ": " + handler.get_version()'),
     ('<div>Fingerprint: " + handler.get_fingerprint()', '<div>" + translate("Fingerprint") + ": " + handler.get_fingerprint()'),
     ("            <p style='font-weight: bold'>\" + translate(\"Slogan_tip\") + \"</p>\\\n", ""),
+    # 안내 문구 마지막 낱말을 끊지 않음(옛날 화면은 한글을 글자 단위로 끊어 "있습니 / 다." — 11/26 실기)
+    ("<div .lighter-text>{outgoing_only ? translate('outgoing_only_desk_tip') : translate('desk_tip')}</div>",
+     "<div .lighter-text>{outgoing_only ? translate('outgoing_only_desk_tip') : updeskTip(translate('desk_tip'))}</div>"),
+    ("class App: Reactor.Component\n",
+     "function updeskTip(t) {\n    var i = t.lastIndexOf(\" \");\n    if (i < 0) return t;\n"
+     "    return <span>{t.substr(0, i + 1)}<span style=\"white-space:nowrap\">{t.substr(i + 1)}</span></span>;\n}\n\n"
+     "class App: Reactor.Component\n"),
     ("        <div .your-desktop>\n            <div>{translate('One-time Password')}</div>",
      "        <div .your-desktop .updesk-pw>\n            <div>{translate('One-time Password')}</div>"),
 ])
@@ -107,7 +114,7 @@ div.updesk-id, div.updesk-pw, div.updesk-support { background: white; border: #D
 html.darktheme div.updesk-id, html.darktheme div.updesk-pw, html.darktheme div.updesk-support { background: #232428; border: none; padding-left: 14px; }
 html.darktheme div.updesk-id { border-left: #CC0000 solid 4px; padding-left: 12px; }
 div.updesk-id div#myid svg#menu { right: 0; }
-div.updesk-id input[type=text] { font-size: 26px; font-weight: bold; height: 1.3em; color: color(text); }
+div.updesk-id input[type=text] { font-size: 26px; font-weight: bold; height: 1.3em; color: color(text); background: transparent; }
 div.updesk-pw div.eye-area { flow: horizontal; }
 div.updesk-pw div.eye-area > input { width: *; height: auto; padding: 6px 10px; border: #D6D8DC 1px solid; border-radius: 6px; background: #F3F4F6; color: color(text); font-size: 18px; font-weight: bold; }
 html.darktheme div.updesk-pw div.eye-area > input { background: #2A2B30; border-color: #3A3B40; }
