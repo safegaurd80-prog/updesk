@@ -89,4 +89,6 @@ for src, dsts in {
 # ⑥ 화면 모양(제목줄·색·첫 화면) — 따로 둔 파일(원본 글이 바뀌면 거기서 멈춤)
 import runpy
 runpy.run_path("res/updesk_ui_patch.py")
+# ⑦ 창 동작(설정 → 홈 전환 순서) — 따로 둔 파일
+runpy.run_path("res/updesk_window_patch.py")
 print("UP-Desk patch OK")
