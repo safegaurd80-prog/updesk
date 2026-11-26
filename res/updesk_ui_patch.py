@@ -291,4 +291,6 @@ edit("flutter/lib/desktop/pages/desktop_home_page.dart", [
     ("  Widget buildInstallCard(String title, String content, String btnText,\n",
      SUPPORT_CARD + "  Widget buildInstallCard(String title, String content, String btnText,\n"),
 ])
+# ⑤ 2026-11-26 강규진 주임: 정보 화면의 번역자 문구(Slogan_tip) 뺌 — 저작권·라이선스 줄은 그대로(32비트도 같음)
+edit("flutter/lib/desktop/pages/desktop_setting_page.dart", [("                          Text(\n                            translate('Slogan_tip'),\n                            style: TextStyle(\n                                fontWeight: FontWeight.w800,\n                                color: Colors.white),\n                          )", "                          const SizedBox.shrink()")])
 print("UP-Desk ui patch OK")
