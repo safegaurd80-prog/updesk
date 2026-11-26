@@ -350,7 +350,7 @@ jobs:
           msbuild msi.sln -p:Configuration=Release -p:Platform=$msiPlatform /p:TargetVersion=Windows10
           $msi = Get-ChildItem ./Package/bin/*/Release/en-us/Package.msi | Select-Object -First 1
           mv $msi.FullName ../../SignOutput/UP-Desk-Pro-${{ env.VERSION }}-64bit.msi
-          sha256sum ../../SignOutput/rustdesk-*.msi
+          sha256sum ../../SignOutput/UP-Desk-Pro-*.msi
 
       - name: Build pre-built MSI template
         # Two things this works around: preprocess.py rewrites res/msi in place, so the
