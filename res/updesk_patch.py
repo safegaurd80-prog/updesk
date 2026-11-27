@@ -91,4 +91,6 @@ import runpy
 runpy.run_path("res/updesk_ui_patch.py")
 # ⑦ 창 동작(설정 → 홈 전환 순서) — 따로 둔 파일
 runpy.run_path("res/updesk_window_patch.py")
+# ⑧ 키 넣기(Caps Lock 때문에 한글이 낱자로 찍히던 것) — 따로 둔 파일
+runpy.run_path("res/updesk_input_patch.py")
 print("UP-Desk patch OK")
